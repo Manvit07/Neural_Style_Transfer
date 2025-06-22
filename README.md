@@ -68,7 +68,7 @@ If you use a bird image as content and a cyberpunk fantasy illustration as the s
 
 | Content Image | Style Image | Stylized Output |
 |---------------|-------------|-----------------|
-| ![content](![Image](https://github.com/user-attachments/assets/ff7b3c8e-5657-4882-ad7d-8a2416118c68)) | ![style](![Image](https://github.com/user-attachments/assets/8a143432-7d8b-41d4-b1e2-124a92acd2b0)) | ![output](![Image](https://github.com/user-attachments/assets/4ae12985-54cd-4c9d-8bc1-f0c6ca60017b)) |
+| ![Content](https://github.com/user-attachments/assets/ff7b3c8e-5657-4882-ad7d-8a2416118c68) | ![Style](https://github.com/user-attachments/assets/8a143432-7d8b-41d4-b1e2-124a92acd2b0) | ![Stylized](https://github.com/user-attachments/assets/4ae12985-54cd-4c9d-8bc1-f0c6ca60017b) |
 
 (*Replace these with actual image links if hosted in your GitHub repo*)
 
