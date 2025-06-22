@@ -1,3 +1,17 @@
+## Neural Style Transfer
+
+*COMPANY*: CODTECH IT SOLUTIONS PVT.LTD
+
+*NAME*: Manvit Mahesh Deshmukh
+
+*INTERN ID*: CT12DL764
+
+*DOMAIN*: Artificial intelligence.
+
+*DURATION*: 12 weeks
+
+*MENTOR*:  Neela Santhosh Kumar
+
 # 🎨 Neural Style Transfer – CodTech Internship Task 3
 
 This project is a beginner-friendly implementation of **Neural Style Transfer** using PyTorch and Google Colab. It was created as part of the **CodTech Artificial Intelligence Internship (Task 3)**. The goal of this task is to take two images — a **content image** and a **style image** — and generate a new image that retains the structure of the content image but appears as if it were painted in the artistic style of the style image.
