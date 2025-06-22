@@ -74,7 +74,7 @@ If you use a bird image as content and a cyberpunk fantasy illustration as the s
 
 ---
 
-## 🛠️ Features
+
 
 - Automatically detects uploaded image names.
 - Converts RGBA images to RGB to avoid tensor mismatch errors.
@@ -83,3 +83,17 @@ If you use a bird image as content and a cyberpunk fantasy illustration as the s
 - Simple code style written like a beginner for easy understanding.
 
 ---
+
+## 📸 SCREENSHOTS
+
+![Image](https://github.com/user-attachments/assets/00e8e0c3-6624-4728-9887-07f5d3604447)
+![Image](https://github.com/user-attachments/assets/36eea852-1ad5-4e1c-89ad-674bfbac1c08)
+![Image](https://github.com/user-attachments/assets/fbba1438-5e01-4bc4-8005-62f82fb76753)
+![Image](https://github.com/user-attachments/assets/bccffe1f-87c7-443d-9412-1fac36b515fb)
+![Image](https://github.com/user-attachments/assets/7ee02025-66c2-4867-95a0-1fac80642dc5)
+![Image](https://github.com/user-attachments/assets/cca24082-dbf3-4486-bf06-3d207193ae5f)
+![Image](https://github.com/user-attachments/assets/8132d62b-588c-451e-a52e-3ec0b093df02)
+![Image](https://github.com/user-attachments/assets/4985e7e2-174e-477b-bdc2-4bdfbdb41a6a)
+![Image](https://github.com/user-attachments/assets/72f43297-e335-438d-8c83-abded4dc98a1)
+![Image](https://github.com/user-attachments/assets/6a02360c-022d-4ed7-8a5c-564e787158d0)
+![Image](https://github.com/user-attachments/assets/3fe3df73-ce9f-440d-a6a1-6be9c5950f45)
