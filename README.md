@@ -86,7 +86,6 @@ If you use a bird image as content and a cyberpunk fantasy illustration as the s
 
 ## 📸 SCREENSHOTS
 
-![Image](https://github.com/user-attachments/assets/00e8e0c3-6624-4728-9887-07f5d3604447)
 ![Image](https://github.com/user-attachments/assets/36eea852-1ad5-4e1c-89ad-674bfbac1c08)
 ![Image](https://github.com/user-attachments/assets/fbba1438-5e01-4bc4-8005-62f82fb76753)
 ![Image](https://github.com/user-attachments/assets/bccffe1f-87c7-443d-9412-1fac36b515fb)
