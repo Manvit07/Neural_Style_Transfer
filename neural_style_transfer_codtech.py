@@ -31,37 +31,21 @@ loader = transforms.Compose([
     transforms.ToTensor()
 ])
 
+# this function loads and prepares the image
 def image_loader(image_path):
-    image = Image.open(image_path).convert("RGB")  # convert to 3 channels
+    image = Image.open(image_path)
     image = loader(image).unsqueeze(0)  # add batch dimension
     return image.to("cuda" if torch.cuda.is_available() else "cpu", torch.float)
-
 
 # now load your content and style images
 # you can upload your own images in colab using the upload button
 
-# Upload two images: one content and one style
 from google.colab import files
 uploaded = files.upload()
 
-# Collect uploaded file names
-image_filenames = list(uploaded.keys())
-
-# Check for 2 files
-if len(image_filenames) < 2:
-    raise ValueError("⚠️ Please upload 2 image files: one for content and one for style.")
-
-# Use them
-content_img_path = image_filenames[0]
-style_img_path = image_filenames[1]
-
-# Load images
-content_img = image_loader(content_img_path)
-style_img = image_loader(style_img_path)
-
-# Confirm selection
-print("✅ Using content image:", content_img_path)
-print("✅ Using style image:", style_img_path)
+# replace these with your actual file names
+content_img = image_loader("your_content_image.jpg")
+style_img = image_loader("your_style_image.jpg")
 
 # quick function to show images
 def imshow(tensor, title=None):
@@ -89,23 +73,18 @@ normalization_std = torch.tensor([0.229, 0.224, 0.225])
 class Normalization(nn.Module):
     def __init__(self, mean, std):
         super(Normalization, self).__init__()
-        # Register mean and std as buffers so they are moved with the module
-        # when .to() is called.
+        # Register mean and std as buffers so they are moved to the correct device with the module
         self.register_buffer('mean', mean.clone().detach().view(-1, 1, 1))
         self.register_buffer('std', std.clone().detach().view(-1, 1, 1))
 
     def forward(self, img):
-        # Check device compatibility before the operation (optional, for debugging)
-        # print(f"img device: {img.device}, mean device: {self.mean.device}, std device: {self.std.device}")
         return (img - self.mean) / self.std
 
 # content loss to compare features
 class ContentLoss(nn.Module):
     def __init__(self, target):
         super(ContentLoss, self).__init__()
-        # Register target as a buffer so it is moved with the module
-        # when .to() is called.
-        self.register_buffer('target', target.detach())
+        self.target = target.detach()
     def forward(self, input):
         self.loss = nn.functional.mse_loss(input, self.target)
         return input
@@ -120,32 +99,20 @@ def gram_matrix(input):
 class StyleLoss(nn.Module):
     def __init__(self, target_feature):
         super(StyleLoss, self).__init__()
-        # Register target as a buffer so it is moved with the module
-        # when .to() is called.
-        self.register_buffer('target', gram_matrix(target_feature).detach())
+        self.target = gram_matrix(target_feature).detach()
     def forward(self, input):
         G = gram_matrix(input)
         self.loss = nn.functional.mse_loss(G, self.target)
         return input
 
 # layers where we want to compute style and content losses
-content_layers = ['conv_4']
-style_layers = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
+content_layers = ['conv_2']
+style_layers = ['conv_1', 'conv_2', 'conv_3']
 
 # building the model
 def get_style_model_and_losses(cnn, norm_mean, norm_std, style_img, content_img):
     cnn = copy.deepcopy(cnn)
-
-    # Get the device of the input images to ensure everything is on the same device
-    device = content_img.device
-
-    # Move mean and std to the correct device before creating Normalization module
-    norm_mean = norm_mean.to(device)
-    norm_std = norm_std.to(device)
-
-    # Create Normalization module and move it to the correct device
-    normalization = Normalization(norm_mean, norm_std).to(device)
-
+    normalization = Normalization(norm_mean, norm_std).to("cuda" if torch.cuda.is_available() else "cpu")
     content_losses = []
     style_losses = []
 
@@ -166,23 +133,19 @@ def get_style_model_and_losses(cnn, norm_mean, norm_std, style_img, content_img)
         else:
             name = 'layer_{}'.format(i)
 
-        # Move the layer to the correct device
-        model.add_module(name, layer.to(device))
+        model.add_module(name, layer)
 
         if name in content_layers:
-            # Ensure inputs to model are on the correct device before processing
-            target = model(content_img.to(device)).detach()
-            content_loss = ContentLoss(target).to(device) # Move loss module to device
+            target = model(content_img).detach()
+            content_loss = ContentLoss(target)
             model.add_module("content_loss_{}".format(i), content_loss)
             content_losses.append(content_loss)
 
         if name in style_layers:
-             # Ensure inputs to model are on the correct device before processing
-            target_feature = model(style_img.to(device)).detach()
-            style_loss = StyleLoss(target_feature).to(device) # Move loss module to device
+            target_feature = model(style_img).detach()
+            style_loss = StyleLoss(target_feature)
             model.add_module("style_loss_{}".format(i), style_loss)
             style_losses.append(style_loss)
-
 
     # trim off the layers after the last content/style loss
     for i in range(len(model) - 1, -1, -1):
@@ -204,22 +167,17 @@ model, style_losses, content_losses = get_style_model_and_losses(
 )
 
 # optimizer
-# Ensure optimizer is initialized with the input_img on the correct device
 optimizer = optim.LBFGS([input_img])
 
 # run the style transfer
-print("Working on it... might take a while")
+print("Working on it... might take a while ⏳")
 run = [0]
-while run[0] <= 300:
+while run[0] <= 200:
 
     def closure():
-        # Ensure input_img is on the correct device before clamping
         input_img.data.clamp_(0, 1)
         optimizer.zero_grad()
-
-        # Ensure input_img is on the correct device before passing to the model
-        model(input_img.to(input_img.device))
-
+        model(input_img)
         style_score = 0
         content_score = 0
 
@@ -228,12 +186,14 @@ while run[0] <= 300:
         for cl in content_losses:
             content_score += cl.loss
 
-        loss = style_score * 1000000 + content_score
+        style_weight = 1e4 # BEST RANGE: Style: 1e3 → 1e5; Content: 1
+        content_weight = 1
+        loss = style_score * style_weight + content_score * content_weight * 2
+        
         loss.backward()
         run[0] += 1
 
         if run[0] % 50 == 0:
-            # Move scores to CPU for printing
             print("step {}: Style Loss : {:4f} Content Loss: {:4f}".format(run[0], style_score.item(), content_score.item()))
 
         return loss
@@ -241,6 +201,5 @@ while run[0] <= 300:
     optimizer.step(closure)
 
 # clamp final image and show it
-# Ensure input_img is on the correct device before clamping
 input_img.data.clamp_(0, 1)
-imshow(input_img, title='Stylized Image')
+imshow(input_img, title='Stylized Image ✨')
