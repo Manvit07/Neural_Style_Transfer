@@ -83,7 +83,7 @@ If you use a bird image as content and a cyberpunk fantasy illustration as the s
 | Content Image | Style Image | Stylized Output |
 |---------------|-------------|-----------------|
 | ![Content](https://github.com/user-attachments/assets/ff7b3c8e-5657-4882-ad7d-8a2416118c68) | ![Style](https://github.com/user-attachments/assets/8a143432-7d8b-41d4-b1e2-124a92acd2b0) | ![Stylized](https://github.com/user-attachments/assets/4ae12985-54cd-4c9d-8bc1-f0c6ca60017b) |
-| ![Content](<img width="1280" height="853" alt="your_content_image" src="https://github.com/user-attachments/assets/02e20095-9bc3-4dcf-9879-1cfc0460e4e5" />) | ![Style](<img width="512" height="1024" alt="your_style_image" src="https://github.com/user-attachments/assets/02582c01-7a2d-471e-84d0-4efc6a7d0400" />) | ![Stylized](<img width="389" height="411" alt="download" src="https://github.com/user-attachments/assets/5210f2f0-c59a-4cd3-b987-15d0818860c8" />) |
+| ![Content](https://github.com/user-attachments/assets/02e20095-9bc3-4dcf-9879-1cfc0460e4e5) | ![Style](https://github.com/user-attachments/assets/02582c01-7a2d-471e-84d0-4efc6a7d0400) | ![Stylized](https://github.com/user-attachments/assets/5210f2f0-c59a-4cd3-b987-15d0818860c8) |
 
 ---
 
